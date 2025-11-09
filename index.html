@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link class="icon" rel="icon" href="./images/ddp1.png" />
+  <title>Currency Counter😁</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="script.js" defer></script>
+</head>
+<body class="flex flex-col min-h-screen">
+
+  <div class="nav">
+    <h1>Currency <span>Counter</span></h1>
+    <img src="./images/logo.png" alt="logo" />
+  </div>
+
+  <div class="container flex-grow">
+    <div class="notes">
+      <div class="img">
+        <img src="./images/500.png" alt="500" />
+        <h6>500</h6>
+      </div>
+      <h4>X</h4>
+      <input type="number" id="note500" min="0"   />
+      <h4>=</h4>
+      <span id="note500Total">₹0</span>
+    </div>
+
+    <div class="notes">
+      <div class="img">
+        <img src="./images/200.png" alt="200" />
+        <h6>200</h6>
+      </div>
+      <h4>X</h4>
+      <input type="number" id="note200" min="0"   />
+      <h4>=</h4>
+      <span id="note200Total">₹0</span>
+    </div>
+
+    <div class="notes">
+      <div class="img">
+        <img src="./images/100.png" alt="100" />
+        <h6>100</h6>
+      </div>
+      <h4>X</h4>
+      <input type="number" id="note100" min="0"   />
+      <h4>=</h4>
+      <span id="note100Total">₹0</span>
+    </div>
+
+    <div class="notes">
+      <div class="img">
+        <img src="./images/50.png" alt="50" />
+        <h6>50</h6>
+      </div>
+      <h4>X</h4>
+      <input type="number" id="note50" min="0"   />
+      <h4>=</h4>
+      <span id="note50Total">₹0</span>
+    </div>
+
+    <div class="notes">
+      <div class="img">
+        <img src="./images/20.png" alt="20" />
+        <h6>20</h6>
+      </div>
+      <h4>X</h4>
+      <input type="number" id="note20" min="0"   />
+      <h4>=</h4>
+      <span id="note20Total">₹0</span>
+    </div>
+
+    <div class="notes">
+      <div class="img">
+        <img src="./images/10.png" alt="10" />
+        <h6>10</h6>
+      </div>
+      <h4>X</h4>
+      <input type="number" id="note10" min="0"   />
+      <h4>=</h4>
+      <span id="note10Total">₹0</span>
+    </div>
+
+    <div class="notes">
+      <div class="img">
+        <img src="./images/coins.png" alt="coins" />
+        <h6>Coins</h6>
+      </div>
+      <h4>X</h4>
+      <input type="number" id="note1" min="0"   />
+      <h4>=</h4>
+      <span id="note1Total">₹0</span>
+    </div>
+
+    <!-- Grand total -->
+    <div id="grand-total" class="text-2xl font-semibold text-center text-white mt-6">
+      Total: ₹0
+    </div>
+  </div>
+
+  <footer class="text-center text-gray-700 text-sm p-4 bg-white/80 backdrop-blur-md">
+    <p class="mb-2">
+      Developed by
+      <a href="https://www.instagram.com/nashif.me/" target="_blank" class="font-semibold text-blue-600 hover:text-pink-500 transition">
+        Nashif !
+      </a>
+    </p>
+    <div class="flex justify-center gap-4">
+      <a href="https://www.linkedin.com/in/nashif-t-587713320" target="_blank" class="hover:text-blue-600 transition">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="w-5 h-5 inline" viewBox="0 0 24 24">
+          <path d="M20.451 20.451H17.4v-5.568c0-1.328-.025-3.037-1.852-3.037-1.853 0-2.137 1.445-2.137 2.939v5.666H10.36V9.5h2.923v1.496h.04c.408-.774 1.406-1.589 2.895-1.589 3.094 0 3.666 2.037 3.666 4.684v6.36zM5.337 8.004a1.688 1.688 0 1 1 0-3.376 1.688 1.688 0 0 1 0 3.376zM6.79 20.451H3.883V9.5H6.79v10.951zM22.225 0H1.771C.792 0 0 .774 0 1.728v20.543C0 23.226.792 24 1.771 24h20.451C23.208 24 24 23.226 24 22.271V1.728C24 .774 23.208 0 22.225 0z"/>
+        </svg>
+      </a>
+      <a href="https://github.com/nashif-dev" target="_blank" class="hover:text-gray-800 transition">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="w-5 h-5 inline" viewBox="0 0 24 24">
+          <path d="M12 .297a12 12 0 0 0-3.79 23.406c.6.113.82-.26.82-.577v-2.234c-3.338.726-4.042-1.415-4.042-1.415-.546-1.384-1.333-1.754-1.333-1.754-1.089-.745.083-.729.083-.729 1.205.085 1.838 1.238 1.838 1.238 1.07 1.834 2.807 1.305 3.49.998.108-.776.418-1.305.762-1.605-2.665-.304-5.466-1.333-5.466-5.932 0-1.312.469-2.384 1.236-3.224-.124-.303-.536-1.526.117-3.183 0 0 1.008-.322 3.301 1.23a11.52 11.52 0 0 1 6.004 0c2.292-1.552 3.298-1.23 3.298-1.23.655 1.657.243 2.88.12 3.183.77.84 1.236 1.912 1.236 3.224 0 4.61-2.804 5.625-5.475 5.922.43.372.823 1.104.823 2.226v3.293c0 .32.218.694.825.576A12.004 12.004 0 0 0 12 .297z"/>
+        </svg>
+      </a>
+    </div>
+  </footer>
+</body>
+</html>
