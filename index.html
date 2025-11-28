@@ -1,124 +1,187 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link class="icon" rel="icon" href="./images/ddp1.png" />
-  <title>Currency Counter😁</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Currency Counter — Mobile</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="style.css" />
   <script src="script.js" defer></script>
 </head>
-<body class="flex flex-col min-h-screen">
+<body class="bg-gray-50 text-slate-800 min-h-screen flex flex-col">
 
-  <div class="nav">
-    <h1>Currency <span>Counter</span></h1>
-    <img src="./images/logo.png" alt="logo" />
+  <header class="w-full bg-transparent px-4 pt-6 pb-3">
+    <div class="max-w-sm mx-auto flex items-center justify-between">
+      <div>
+        <h1 class="text-lg font-semibold tracking-tight">Currency <span class="font-extrabold">Counter</span></h1>
+      </div>
+      <img src="./images/logo.png" alt="logo" class="h-9 w-auto opacity-80" />
+    </div>
+  </header>
+
+  <main class="flex-1 w-full">
+    <div class="max-w-sm mx-auto px-4 pb-24">
+      <section class="mt-3 bg-white/80 backdrop-blur-sm rounded-2xl p-4 shadow-sm border border-slate-100">
+        <label for="target" class="text-sm text-slate-600 block mb-2">Target amount</label>
+        <div class="flex gap-3">
+          <input id="target" type="number" inputmode="numeric" min="0" class="flex-1 rounded-lg border border-slate-200 p-3 text-right font-semibold bg-slate-50"
+                 placeholder="Enter target (₹)" />
+          <button id="applyTarget" class="rounded-lg px-3 py-2 bg-slate-100 text-sm text-slate-700">Set</button>
+        </div>
+      </section>
+
+      <section class="mt-4 space-y-3">
+
+        <div class="denom-card flex items-center gap-3 bg-white rounded-xl p-3 shadow-sm border border-slate-100" data-denom="500">
+          <div class="min-w-[72px] flex items-center gap-3">
+            <img src="./images/500.png" alt="₹500" class="h-10 w-auto rounded-md object-contain" />
+            <div class="text-sm text-slate-800 font-semibold">₹500</div>
+          </div>
+
+          <div class="flex items-center gap-2 flex-1">
+            <button type="button" class="decBtn px-3 py-2 rounded-md bg-slate-50 text-slate-700" aria-label="decrease">X</button>
+            <input id="note500" type="number" inputmode="numeric" min="0" value="0" class="qtyInput w-20 text-right bg-slate-50 rounded-md p-2 font-semibold" aria-label="Count of 500 rupee notes" />
+            <button type="button" class="incBtn px-3 py-2 rounded-md bg-slate-50 text-slate-700" aria-label="increase">=</button>
+          </div>
+
+          <div class="text-right min-w-[84px]">
+            <div class="text-xs text-slate-400">Subtotal</div>
+            <div id="note500Total" class="text-lg font-extrabold text-slate-800">₹0</div>
+          </div>
+        </div>
+
+        <div class="denom-card flex items-center gap-3 bg-white rounded-xl p-3 shadow-sm border border-slate-100" data-denom="200">
+          <div class="min-w-[72px] flex items-center gap-3">
+            <img src="./images/200.png" alt="₹200" class="h-10 w-auto rounded-md object-contain" />
+            <div class="text-sm text-slate-800 font-semibold">₹200</div>
+          </div>
+
+          <div class="flex items-center gap-2 flex-1">
+            <button type="button" class="decBtn px-3 py-2 rounded-md bg-slate-50 text-slate-700">X</button>
+            <input id="note200" type="number" inputmode="numeric" min="0" value="0" class="qtyInput w-20 text-right bg-slate-50 rounded-md p-2 font-semibold" aria-label="Count of 200 rupee notes" />
+            <button type="button" class="incBtn px-3 py-2 rounded-md bg-slate-50 text-slate-700">=</button>
+          </div>
+
+          <div class="text-right min-w-[84px]">
+            <div class="text-xs text-slate-400">Subtotal</div>
+            <div id="note200Total" class="text-lg font-extrabold text-slate-800">₹0</div>
+          </div>
+        </div>
+
+        <div class="denom-card flex items-center gap-3 bg-white rounded-xl p-3 shadow-sm border border-slate-100" data-denom="100">
+          <div class="min-w-[72px] flex items-center gap-3">
+            <img src="./images/100.png" alt="₹100" class="h-10 w-auto rounded-md object-contain" />
+            <div class="text-sm text-slate-800 font-semibold">₹100</div>
+          </div>
+
+          <div class="flex items-center gap-2 flex-1">
+            <button type="button" class="decBtn px-3 py-2 rounded-md bg-slate-50 text-slate-700">X</button>
+            <input id="note100" type="number" inputmode="numeric" min="0" value="0" class="qtyInput w-20 text-right bg-slate-50 rounded-md p-2 font-semibold" aria-label="Count of 100 rupee notes" />
+            <button type="button" class="incBtn px-3 py-2 rounded-md bg-slate-50 text-slate-700">=</button>
+          </div>
+
+          <div class="text-right min-w-[84px]">
+            <div class="text-xs text-slate-400">Subtotal</div>
+            <div id="note100Total" class="text-lg font-extrabold text-slate-800">₹0</div>
+          </div>
+        </div>
+
+        <div class="denom-card flex items-center gap-3 bg-white rounded-xl p-3 shadow-sm border border-slate-100" data-denom="50">
+          <div class="min-w-[72px] flex items-center gap-3">
+            <img src="./images/50.png" alt="₹50" class="h-10 w-auto rounded-md object-contain" />
+            <div class="text-sm text-slate-800 font-semibold">₹50</div>
+          </div>
+
+          <div class="flex items-center gap-2 flex-1">
+            <button type="button" class="decBtn px-3 py-2 rounded-md bg-slate-50 text-slate-700">X</button>
+            <input id="note50" type="number" inputmode="numeric" min="0" value="0" class="qtyInput w-20 text-right bg-slate-50 rounded-md p-2 font-semibold" aria-label="Count of 50 rupee notes" />
+            <button type="button" class="incBtn px-3 py-2 rounded-md bg-slate-50 text-slate-700">=</button>
+          </div>
+
+          <div class="text-right min-w-[84px]">
+            <div class="text-xs text-slate-400">Subtotal</div>
+            <div id="note50Total" class="text-lg font-extrabold text-slate-800">₹0</div>
+          </div>
+        </div>
+
+        <div class="denom-card flex items-center gap-3 bg-white rounded-xl p-3 shadow-sm border border-slate-100" data-denom="20">
+          <div class="min-w-[72px] flex items-center gap-3">
+            <img src="./images/20.png" alt="₹20" class="h-10 w-auto rounded-md object-contain" />
+            <div class="text-sm text-slate-800 font-semibold">₹20</div>
+          </div>
+
+          <div class="flex items-center gap-2 flex-1">
+            <button type="button" class="decBtn px-3 py-2 rounded-md bg-slate-50 text-slate-700">X</button>
+            <input id="note20" type="number" inputmode="numeric" min="0" value="0" class="qtyInput w-20 text-right bg-slate-50 rounded-md p-2 font-semibold" aria-label="Count of 20 rupee notes" />
+            <button type="button" class="incBtn px-3 py-2 rounded-md bg-slate-50 text-slate-700">=</button>
+          </div>
+
+          <div class="text-right min-w-[84px]">
+            <div class="text-xs text-slate-400">Subtotal</div>
+            <div id="note20Total" class="text-lg font-extrabold text-slate-800">₹0</div>
+          </div>
+        </div>
+
+        <div class="denom-card flex items-center gap-3 bg-white rounded-xl p-3 shadow-sm border border-slate-100" data-denom="10">
+          <div class="min-w-[72px] flex items-center gap-3">
+            <img src="./images/10.png" alt="₹10" class="h-10 w-auto rounded-md object-contain" />
+            <div class="text-sm text-slate-800 font-semibold">₹10</div>
+          </div>
+
+          <div class="flex items-center gap-2 flex-1">
+            <button type="button" class="decBtn px-3 py-2 rounded-md bg-slate-50 text-slate-700">X</button>
+            <input id="note10" type="number" inputmode="numeric" min="0" value="0" class="qtyInput w-20 text-right bg-slate-50 rounded-md p-2 font-semibold" aria-label="Count of 10 rupee notes" />
+            <button type="button" class="incBtn px-3 py-2 rounded-md bg-slate-50 text-slate-700">=</button>
+          </div>
+
+          <div class="text-right min-w-[84px]">
+            <div class="text-xs text-slate-400">Subtotal</div>
+            <div id="note10Total" class="text-lg font-extrabold text-slate-800">₹0</div>
+          </div>
+        </div>
+
+        <div class="denom-card flex items-center gap-3 bg-white rounded-xl p-3 shadow-sm border border-slate-100" data-denom="1">
+          <div class="min-w-[72px] flex items-center gap-3">
+            <img src="./images/coins.png" alt="coins" class="h-10 w-auto rounded-md object-contain" />
+            <div class="text-sm text-slate-800 font-semibold">Coins</div>
+          </div>
+
+          <div class="flex items-center gap-2 flex-1">
+            <button type="button" class="decBtn px-3 py-2 rounded-md bg-slate-50 text-slate-700">X</button>
+            <input id="note1" type="number" inputmode="numeric" min="0" value="0" class="qtyInput w-20 text-right bg-slate-50 rounded-md p-2 font-semibold" aria-label="Count of coins (₹1 each)" />
+            <button type="button" class="incBtn px-3 py-2 rounded-md bg-slate-50 text-slate-700">=</button>
+          </div>
+
+          <div class="text-right min-w-[84px]">
+            <div class="text-xs text-slate-400">Subtotal</div>
+            <div id="note1Total" class="text-lg font-extrabold text-slate-800">₹0</div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <div class="fixed bottom-16 left-1/2 transform -translate-x-1/2 w-[calc(100%-32px)] max-w-sm bg-white rounded-2xl p-3 flex items-center justify-between shadow-lg border border-slate-100">
+    <div>
+      <div class="text-xs text-slate-500">Grand total</div>
+      <div id="grand-total" class="text-lg font-extrabold text-slate-900">₹0</div>
+      <div id="diff" class="text-sm mt-1 text-slate-500">Difference: ₹0</div>
+    </div>
+
+    <div class="flex flex-col items-end gap-2">
+      <button id="resetBtn" class="px-3 py-2 rounded-lg bg-red-50 text-red-600 text-sm">Reset</button>
+    </div>
   </div>
 
-  <div class="container flex-grow">
-    <div class="notes">
-      <div class="img">
-        <img src="./images/500.png" alt="500" />
-        <h6>500</h6>
-      </div>
-      <h4>X</h4>
-      <input type="number" id="note500" min="0"   />
-      <h4>=</h4>
-      <span id="note500Total">₹0</span>
-    </div>
+<footer class="fixed bottom-0 left-0 w-full bg-white/90 backdrop-blur-md border-t border-slate-200 text-center text-xs text-slate-600 py-3 z-40">
+  <p>
+    Developed by 
+    <a href="https://www.instagram.com/nashif.me/" target="_blank" 
+       class="font-semibold text-slate-700 hover:text-blue-600 transition">
+      Nashif !
+    </a>
+  </p>
+</footer>
 
-    <div class="notes">
-      <div class="img">
-        <img src="./images/200.png" alt="200" />
-        <h6>200</h6>
-      </div>
-      <h4>X</h4>
-      <input type="number" id="note200" min="0"   />
-      <h4>=</h4>
-      <span id="note200Total">₹0</span>
-    </div>
-
-    <div class="notes">
-      <div class="img">
-        <img src="./images/100.png" alt="100" />
-        <h6>100</h6>
-      </div>
-      <h4>X</h4>
-      <input type="number" id="note100" min="0"   />
-      <h4>=</h4>
-      <span id="note100Total">₹0</span>
-    </div>
-
-    <div class="notes">
-      <div class="img">
-        <img src="./images/50.png" alt="50" />
-        <h6>50</h6>
-      </div>
-      <h4>X</h4>
-      <input type="number" id="note50" min="0"   />
-      <h4>=</h4>
-      <span id="note50Total">₹0</span>
-    </div>
-
-    <div class="notes">
-      <div class="img">
-        <img src="./images/20.png" alt="20" />
-        <h6>20</h6>
-      </div>
-      <h4>X</h4>
-      <input type="number" id="note20" min="0"   />
-      <h4>=</h4>
-      <span id="note20Total">₹0</span>
-    </div>
-
-    <div class="notes">
-      <div class="img">
-        <img src="./images/10.png" alt="10" />
-        <h6>10</h6>
-      </div>
-      <h4>X</h4>
-      <input type="number" id="note10" min="0"   />
-      <h4>=</h4>
-      <span id="note10Total">₹0</span>
-    </div>
-
-    <div class="notes">
-      <div class="img">
-        <img src="./images/coins.png" alt="coins" />
-        <h6>Coins</h6>
-      </div>
-      <h4>X</h4>
-      <input type="number" id="note1" min="0"   />
-      <h4>=</h4>
-      <span id="note1Total">₹0</span>
-    </div>
-
-    <!-- Grand total -->
-    <div id="grand-total" class="text-2xl font-semibold text-center text-white mt-6">
-      Total: ₹0
-    </div>
-  </div>
-
-  <footer class="text-center text-gray-700 text-sm p-4 bg-white/80 backdrop-blur-md">
-    <p class="mb-2">
-      Developed by
-      <a href="https://www.instagram.com/nashif.me/" target="_blank" class="font-semibold text-blue-600 hover:text-pink-500 transition">
-        Nashif !
-      </a>
-    </p>
-    <div class="flex justify-center gap-4">
-      <a href="https://www.linkedin.com/in/nashif-t-587713320" target="_blank" class="hover:text-blue-600 transition">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="w-5 h-5 inline" viewBox="0 0 24 24">
-          <path d="M20.451 20.451H17.4v-5.568c0-1.328-.025-3.037-1.852-3.037-1.853 0-2.137 1.445-2.137 2.939v5.666H10.36V9.5h2.923v1.496h.04c.408-.774 1.406-1.589 2.895-1.589 3.094 0 3.666 2.037 3.666 4.684v6.36zM5.337 8.004a1.688 1.688 0 1 1 0-3.376 1.688 1.688 0 0 1 0 3.376zM6.79 20.451H3.883V9.5H6.79v10.951zM22.225 0H1.771C.792 0 0 .774 0 1.728v20.543C0 23.226.792 24 1.771 24h20.451C23.208 24 24 23.226 24 22.271V1.728C24 .774 23.208 0 22.225 0z"/>
-        </svg>
-      </a>
-      <a href="https://github.com/nashif-dev" target="_blank" class="hover:text-gray-800 transition">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="w-5 h-5 inline" viewBox="0 0 24 24">
-          <path d="M12 .297a12 12 0 0 0-3.79 23.406c.6.113.82-.26.82-.577v-2.234c-3.338.726-4.042-1.415-4.042-1.415-.546-1.384-1.333-1.754-1.333-1.754-1.089-.745.083-.729.083-.729 1.205.085 1.838 1.238 1.838 1.238 1.07 1.834 2.807 1.305 3.49.998.108-.776.418-1.305.762-1.605-2.665-.304-5.466-1.333-5.466-5.932 0-1.312.469-2.384 1.236-3.224-.124-.303-.536-1.526.117-3.183 0 0 1.008-.322 3.301 1.23a11.52 11.52 0 0 1 6.004 0c2.292-1.552 3.298-1.23 3.298-1.23.655 1.657.243 2.88.12 3.183.77.84 1.236 1.912 1.236 3.224 0 4.61-2.804 5.625-5.475 5.922.43.372.823 1.104.823 2.226v3.293c0 .32.218.694.825.576A12.004 12.004 0 0 0 12 .297z"/>
-        </svg>
-      </a>
-    </div>
-  </footer>
 </body>
 </html>

@@ -1,93 +1,38 @@
-* {
-  margin: 0;
-  box-sizing: border-box;
-}
-.nav {
-  background-color: #000;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  padding: 10px 20px;
+:root{
+  --muted: #6b7280;
+  --card-bg: #ffffff;
+  --border: #e6e6e9;
+  --accent: #0b5e3b; 
 }
 
-.nav h1 {
-  color: rgb(166, 166, 31);
-  font-size: 1.8rem;
-  font-weight: 750;
+html,body{height:100%}
+body{font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial; background:#f8fafb; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;}
+
+.denom-card { 
+  transition: transform .14s ease, box-shadow .14s ease;
+}
+.denom-card:hover { transform: translateY(-4px); box-shadow: 0 14px 30px rgba(15, 23, 42, 0.06); }
+
+.qtyInput:focus {
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(11,94,59,0.06);
+  border-color: rgba(11,94,59,0.12);
 }
 
-.nav h1 span {
-  color: #0C831F;
+@media (min-width: 640px) {
+  main .max-w-sm { max-width: 640px; }
+  .denom-card { gap: 16px; }
 }
 
-.nav img {
-  width: auto;
-  height: 45px;
+.pulse {
+  animation: pulse-sub 420ms ease;
+}
+@keyframes pulse-sub {
+  0% { transform: translateY(-2px); opacity: 0.95; }
+  50% { transform: translateY(0); opacity: 1; }
+  100% { transform: translateY(0); opacity: 1; }
 }
 
-.container {
-  min-height: calc(100vh - 140px);
-  background: linear-gradient(to right, #0C831F, rgb(166, 166, 31));
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 20px;
-  gap: 15px;
-  color: white;
-}
-
-.notes {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  background: rgba(255, 255, 255, 0.15);
-  border-radius: 12px;
-  padding: 10px 15px;
-  width: 100%;
-  max-width: 400px;
-}
-
-.img {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.img h6 {
-  color: black;
-  font-size: 1.1rem;
-  font-weight: 700;
-}
-
-.img img {
-  height: 40px;
-  width: auto;
-}
-
-.notes input {
-  background: rgb(195, 199, 191);
-  width: 100px;
-  height: 35px;
-  border-radius: 8px;
-  border: none;
-  text-align: center;
-  font-weight: 600;
-  color: black;
-}
-
-.notes span {
-  min-width: 80px;
-  text-align: center;
-  font-weight: bold;
-}
-
-footer {
-  /* background: rgba(255, 255, 255, 0.8); */
-    background: linear-gradient(to right, #0C831F, rgb(166, 166, 31));
-  color: #333;
-  backdrop-filter: blur(10px);
-  padding: 15px;
+@media (max-width:420px) {
+  .fixed { left: 8px; right: 8px; width: auto !important; transform: none !important; }
 }
