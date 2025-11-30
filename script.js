@@ -2,10 +2,10 @@ const DENOMS = [
   { id: 'note500', value: 500, totalId: 'note500Total' },
   { id: 'note200', value: 200, totalId: 'note200Total' },
   { id: 'note100', value: 100, totalId: 'note100Total' },
-  { id: 'note50',  value: 50,  totalId: 'note50Total' },
-  { id: 'note20',  value: 20,  totalId: 'note20Total' },
-  { id: 'note10',  value: 10,  totalId: 'note10Total' },
-  { id: 'note1',   value: 1,   totalId: 'note1Total' }
+  { id: 'note50', value: 50, totalId: 'note50Total' },
+  { id: 'note20', value: 20, totalId: 'note20Total' },
+  { id: 'note10', value: 10, totalId: 'note10Total' },
+  { id: 'note1', value: 1, totalId: 'note1Total' }
 ];
 
 const LS_KEY = 'cash_counter_v2';
@@ -26,14 +26,14 @@ function loadState() {
 function saveState(state) {
   try {
     localStorage.setItem(LS_KEY, JSON.stringify(state));
-  } catch {}
+  } catch { }
 }
 
 function loadTarget() {
   try { return Number(localStorage.getItem(LS_TARGET)) || 0; } catch { return 0; }
 }
 function saveTarget(n) {
-  try { localStorage.setItem(LS_TARGET, String(n)); } catch {}
+  try { localStorage.setItem(LS_TARGET, String(n)); } catch { }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -42,7 +42,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const applyTargetBtn = document.getElementById('applyTarget');
   const grandEl = document.getElementById('grand-total');
   const diffEl = document.getElementById('diff');
-  const exportBtn = document.getElementById('exportBtn');
   const resetBtn = document.getElementById('resetBtn');
 
   DENOMS.forEach(d => {
@@ -59,13 +58,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const input = document.getElementById(d.id);
     const out = document.getElementById(d.totalId);
     if (!input || !out) return 0;
-    let qty = Number(input.value);
-    if (!Number.isFinite(qty) || qty < 0) qty = 0;
-    qty = Math.floor(qty);
-    input.value = qty;
+    let qty = parseInt(input.value || "");
+    if (isNaN(qty) || qty < 0) qty = 0;
     const subtotal = qty * d.value;
     out.textContent = fmtINR(subtotal);
-
     out.classList.remove('pulse');
     void out.offsetWidth;
     out.classList.add('pulse');
@@ -115,8 +111,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     input.addEventListener('keydown', e => {
-      if (e.key === 'ArrowUp') { input.value = (Number(input.value) || 0) + 1; updateAll(); e.preventDefault(); }
-      if (e.key === 'ArrowDown') { input.value = Math.max(0, (Number(input.value) || 0) - 1); updateAll(); e.preventDefault(); }
       if (e.key === 'Enter') {
         const all = Array.from(document.querySelectorAll('.qtyInput, input[type=number]'));
         const idx = all.indexOf(input);
