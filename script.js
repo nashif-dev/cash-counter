@@ -30,7 +30,7 @@ function saveState(state) {
 }
 
 function loadTarget() {
-  try { return Number(localStorage.getItem(LS_TARGET)) || 0; } catch { return 0; }
+  try { return Number(localStorage.getItem(LS_TARGET)) || ""; } catch { return 0; }
 }
 function saveTarget(n) {
   try { localStorage.setItem(LS_TARGET, String(n)); } catch { }
@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const el = document.getElementById(d.id);
     if (!el) return;
     const saved = state[d.id];
-    if (typeof saved !== 'undefined') el.value = Number(saved) || 0;
+    if (typeof saved !== 'undefined') el.value = Number(saved) || '';
   });
 
   const savedTarget = loadTarget();
@@ -127,13 +127,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  applyTargetBtn?.addEventListener('click', () => {
-    const t = Math.max(0, Math.floor(Number(targetInput.value) || 0));
-    targetInput.value = t;
-    saveTarget(t);
-    updateAll();
-  });
-
   targetInput?.addEventListener('input', () => {
     updateAll();
   });
@@ -142,7 +135,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!confirm('Reset all counts and target?')) return;
     DENOMS.forEach(d => {
       const input = document.getElementById(d.id);
-      if (input) input.value = 0;
+      if (input) input.value = "";
       const out = document.getElementById(d.totalId);
       if (out) out.textContent = fmtINR(0);
     });
