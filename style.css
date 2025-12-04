@@ -2,28 +2,35 @@
   --muted: #6b7280;
   --card-bg: #ffffff;
   --border: #e6e6e9;
-  --accent: #0b5e3b; 
+  --accent: #0b5e3b;
 }
 
+/* base */
 html,body{height:100%}
-body{font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial; background:#f8fafb; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;}
+body{
+  font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;
+  background:#f8fafb;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+}
 
-.denom-card { 
+/* card lift */
+.denom-card {
   transition: transform .14s ease, box-shadow .14s ease;
 }
-.denom-card:hover { transform: translateY(-4px); box-shadow: 0 14px 30px rgba(15, 23, 42, 0.06); }
+.denom-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 30px rgba(15, 23, 42, 0.06);
+}
 
+/* focus ring for inputs */
 .qtyInput:focus {
   outline: none;
   box-shadow: 0 0 0 4px rgba(11,94,59,0.06);
   border-color: rgba(11,94,59,0.12);
 }
 
-@media (min-width: 640px) {
-  main .max-w-sm { max-width: 640px; }
-  .denom-card { gap: 16px; }
-}
-
+/* small pulse animation for subtotal updates */
 .pulse {
   animation: pulse-sub 420ms ease;
 }
@@ -33,6 +40,25 @@ body{font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"
   100% { transform: translateY(0); opacity: 1; }
 }
 
+/* symbol toggles
+   - each button holds two spans:
+     .sym-idle (shown by default) and .sym-active (hidden by default)
+   - when we add .active to the button, we swap visibility
+*/
+button .sym-idle { display: inline-block; }
+button .sym-active { display: none; color: var(--accent); font-weight: 800; }
+
+/* when button has .active, show the active symbol and hide idle */
+button.active .sym-idle { display: none; }
+button.active .sym-active { display: inline-block; transform: translateY(-2px); }
+
+/* mobile tweaks */
+@media (min-width: 640px) {
+  main .max-w-sm { max-width: 640px; }
+  .denom-card { gap: 16px; }
+}
+
+/* ensure sticky bar fits very small screens */
 @media (max-width:420px) {
   .fixed { left: 8px; right: 8px; width: auto !important; transform: none !important; }
 }
