@@ -186,7 +186,7 @@ document.addEventListener('DOMContentLoaded', () => {
       diffEl.textContent = `Difference: ${formatINR(diff)}`;
       diffEl.classList.remove('text-red-600');
     } else {
-      diffEl.textContent = `Short by ${formatINR(Math.abs(diff))}`;
+      diffEl.textContent = `Excess ${formatINR(Math.abs(diff))}`;
       diffEl.classList.add('text-red-600');
     }
   }
