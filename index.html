@@ -1,277 +1,273 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <link rel="icon" href="/images/dp.png">
   <title>Currency Counter</title>
 
-  <!-- Tailwind utilities (optional but used in markup) -->
+  <!-- Tailwind (utility classes used in markup) -->
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- App styles and script -->
+  <!-- Library to save DOM as image -->
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+
+  <!-- App styles and logic -->
   <link rel="stylesheet" href="style.css" />
   <script src="script.js" defer></script>
 </head>
 
-<body class="bg-gray-50 text-slate-800 min-h-screen flex flex-col">
-  <header class="w-full bg-transparent px-4 pt-6 pb-3">
-    <div class="max-w-sm mx-auto flex items-center justify-between">
-      <div>
-        <h1 class="text-lg font-semibold tracking-tight">Currency <span class="font-bold">Counter</span></h1>
+<body class="bg-gray-200 text-slate-800 min-h-screen flex flex-col">
+
+  <!-- EVERYTHING INSIDE THIS WILL BE SAVED AS IMAGE -->
+  <div id="capture-area" class="max-w-sm mx-auto px-4 pb-32">
+    <!-- HEADER -->
+    <header class="w-full px-4 pt-6 pb-3">
+      <div class="max-w-sm mx-auto flex items-center justify-between">
+        <h1 class="text-lg font-semibold">Currency <span class="font-bold">Counter</span></h1>
+        <img src="./images/logo.png" alt="logo" class="h-9 opacity-80 " />
       </div>
-      <img src="./images/logo.png" alt="logo" class="h-9 w-auto opacity-80" />
-    </div>
-  </header>
+    </header>
 
-  <main class="flex-1 w-full">
-    <div class="max-w-sm mx-auto px-4 pb-32"> <!-- extra bottom padding for sticky bar -->
+    <main class="flex-1 w-full">
 
-      <!-- Target input -->
-      <section class="mt-3 bg-white/80 backdrop-blur-sm rounded-2xl p-4 shadow-sm border border-slate-100">
-        <label for="target" class="text-sm text-slate-600 block mb-2">Target amount</label>
-        <div class="flex gap-3">
-          <input id="target" type="number" inputmode="numeric" min="0"
-            class="flex-1 rounded-lg border border-slate-200 p-3 text-right font-semibold bg-slate-50"
-            placeholder="Enter target (₹)" />
-        </div>
+      <!-- TIMESTAMP (always visible) -->
+      <div class="text-xs text-slate-500 text-center mb-2">
+        saved time:
+        <span id="timestamp-text" class="font-medium">—</span>
+      </div>
+
+      <!-- TARGET INPUT -->
+      <section class="bg-white rounded-2xl p-4 shadow-sm border border-slate-300">
+        <label class="text-sm text-slate-600 mb-2 block">Target amount</label>
+        <input id="target" type="number" min="0"
+          class="w-full p-3 text-right rounded-lg bg-slate-50 border border-slate-200 font-semibold"
+          placeholder="Enter target (₹)">
       </section>
 
-      <!-- Denominations list -->
-      <section class="mt-4 space-y-3">
+      <!-- DENOMINATIONS -->
+      <section class="mt-4 space-y-3 min-w-[300px]">
 
+        <!-- TEMPLATE USED FOR ALL NOTES -->
         <!-- 500 -->
-        <div class="denom-card flex items-center gap-3 bg-white rounded-xl p-3 shadow-sm border border-slate-100"
+        <div class="denom-card flex items-center gap-3 bg-white rounded-xl p-3  shadow-sm border border-slate-300 "
           data-denom="500">
-          <div class="min-w-[72px] flex items-center gap-3">
-            <img src="./images/500.png" alt="₹500" class="h-10 w-auto rounded-md object-contain" />
+          <div class="min-w-[72px] flex items-center flex-col gap-1">
+            <img src="./images/500.png" alt="₹500" class="h-8 w-auto rounded-md object-contain" />
             <div class="text-sm text-slate-800 font-semibold ">₹500</div>
           </div>
-
           <div class="flex items-center gap-2 flex-1">
-            <!-- dec button contains both symbols; JS toggles .active on the button -->
-            <button type="button" class="decBtn px-3 py-2 rounded-md bg-slate-50 text-slate-700" aria-label="decrease">
-              <span class="sym-idle">X</span>
-              <span class="sym-active">−</span>
-            </button>
-
-            <input id="note500" type="number" inputmode="numeric" min="0"
-              class="qtyInput w-20 text-right bg-slate-50 rounded-md p-2 font-semibold" aria-label="Count of 500 rupee notes" placeholder="0" />
-
-            <button type="button" class="incBtn px-3 py-2 rounded-md bg-slate-50 text-slate-700" aria-label="increase">
-              <span class="sym-idle">=</span>
-              <span class="sym-active">+</span>
-            </button>
+            <!-- dec button contains both symbols; JS toggles .active on the button --> <button type="button"
+              class="decBtn px-3 py-2 rounded-md bg-slate-50 text-slate-700" aria-label="decrease"> <span
+                class="sym-idle">X</span> <span class="sym-active">−</span> </button> <input id="note500" type="number"
+              inputmode="numeric" min="0" class="qtyInput w-20 text-right bg-slate-50 rounded-md p-2 font-semibold"
+              aria-label="Count of 500 rupee notes" placeholder="0" /> <button type="button"
+              class="incBtn px-3 py-2 rounded-md bg-slate-50 text-slate-700" aria-label="increase"> <span
+                class="sym-idle">=</span> <span class="sym-active">+</span> </button>
           </div>
-
-          <div class="text-right min-w-[84px]">
+          <div class="text-center min-w-[84px] ">
             <div class="text-xs text-slate-400">Subtotal</div>
             <div id="note500Total" class="text-lg font-extrabold text-slate-800">₹0</div>
           </div>
         </div>
 
+
         <!-- 200 -->
-        <div class="denom-card flex items-center gap-3 bg-white rounded-xl p-3 shadow-sm border border-slate-100"
+        <div class="denom-card flex items-center gap-3 bg-white rounded-xl p-3 shadow-sm border border-slate-300"
           data-denom="200">
-          <div class="min-w-[72px] flex items-center gap-3">
-            <img src="./images/200.png" alt="₹200" class="h-10 w-auto rounded-md object-contain" />
+          <div class="min-w-[72px] flex items-center flex-col gap-1"> <img src="./images/200.png" alt="₹200"
+              class="h-10 w-auto rounded-md object-contain" />
             <div class="text-sm text-slate-800 font-semibold">₹200</div>
           </div>
-
-          <div class="flex items-center gap-2 flex-1">
-            <button type="button" class="decBtn px-3 py-2 rounded-md bg-slate-50 text-slate-700">
-              <span class="sym-idle">X</span>
-              <span class="sym-active">−</span>
-            </button>
-
-            <input id="note200" type="number" inputmode="numeric" min="0"
-              class="qtyInput w-20 text-right bg-slate-50 rounded-md p-2 font-semibold" aria-label="Count of 200 rupee notes" placeholder="0" />
-
-            <button type="button" class="incBtn px-3 py-2 rounded-md bg-slate-50 text-slate-700">
-              <span class="sym-idle">=</span>
-              <span class="sym-active">+</span>
-            </button>
-          </div>
-
-          <div class="text-right min-w-[84px]">
+          <div class="flex items-center gap-2 flex-1"> <button type="button"
+              class="decBtn px-3 py-2 rounded-md bg-slate-50 text-slate-700"> <span class="sym-idle">X</span> <span
+                class="sym-active">−</span> </button> <input id="note200" type="number" inputmode="numeric" min="0"
+              class="qtyInput w-20 text-right bg-slate-50 rounded-md p-2 font-semibold"
+              aria-label="Count of 200 rupee notes" placeholder="0" /> <button type="button"
+              class="incBtn px-3 py-2 rounded-md bg-slate-50 text-slate-700"> <span class="sym-idle">=</span> <span
+                class="sym-active">+</span> </button> </div>
+          <div class="text-center min-w-[84px]">
             <div class="text-xs text-slate-400">Subtotal</div>
             <div id="note200Total" class="text-lg font-extrabold text-slate-800">₹0</div>
           </div>
         </div>
-
         <!-- 100 -->
-        <div class="denom-card flex items-center gap-3 bg-white rounded-xl p-3 shadow-sm border border-slate-100"
+        <div class="denom-card flex items-center gap-3 bg-white rounded-xl p-3 shadow-sm border border-slate-300"
           data-denom="100">
-          <div class="min-w-[72px] flex items-center gap-3">
-            <img src="./images/100.png" alt="₹100" class="h-10 w-auto rounded-md object-contain" />
+          <div class="min-w-[72px] flex items-center flex-col gap-1"> <img src="./images/100.png" alt="₹100"
+              class="h-8 w-auto rounded-md object-contain" />
             <div class="text-sm text-slate-800 font-semibold">₹100</div>
           </div>
-
-          <div class="flex items-center gap-2 flex-1">
-            <button type="button" class="decBtn px-3 py-2 rounded-md bg-slate-50 text-slate-700">
-              <span class="sym-idle">X</span>
-              <span class="sym-active">−</span>
-            </button>
-
-            <input id="note100" type="number" inputmode="numeric" min="0"
-              class="qtyInput w-20 text-right bg-slate-50 rounded-md p-2 font-semibold" aria-label="Count of 100 rupee notes" placeholder="0" />
-
-            <button type="button" class="incBtn px-3 py-2 rounded-md bg-slate-50 text-slate-700">
-              <span class="sym-idle">=</span>
-              <span class="sym-active">+</span>
-            </button>
-          </div>
-
-          <div class="text-right min-w-[84px]">
+          <div class="flex items-center gap-2 flex-1"> <button type="button"
+              class="decBtn px-3 py-2 rounded-md bg-slate-50 text-slate-700"> <span class="sym-idle">X</span> <span
+                class="sym-active">−</span> </button> <input id="note100" type="number" inputmode="numeric" min="0"
+              class="qtyInput w-20 text-right bg-slate-50 rounded-md p-2 font-semibold"
+              aria-label="Count of 100 rupee notes" placeholder="0" /> <button type="button"
+              class="incBtn px-3 py-2 rounded-md bg-slate-50 text-slate-700"> <span class="sym-idle">=</span> <span
+                class="sym-active">+</span> </button> </div>
+          <div class="text-center min-w-[84px]">
             <div class="text-xs text-slate-400">Subtotal</div>
             <div id="note100Total" class="text-lg font-extrabold text-slate-800">₹0</div>
           </div>
         </div>
-
         <!-- 50 -->
-        <div class="denom-card flex items-center gap-3 bg-white rounded-xl p-3 shadow-sm border border-slate-100"
+        <div class="denom-card flex items-center gap-3 bg-white rounded-xl p-3 shadow-sm border border-slate-300"
           data-denom="50">
-          <div class="min-w-[72px] flex items-center gap-3">
-            <img src="./images/50.png" alt="₹50" class="h-10 w-auto rounded-md object-contain" />
+          <div class="min-w-[72px] flex items-center flex-col gap-1"> <img src="./images/50.png" alt="₹50"
+              class="h-8 w-auto rounded-md object-contain" />
             <div class="text-sm text-slate-800 font-semibold">₹50</div>
           </div>
-
-          <div class="flex items-center gap-2 flex-1">
-            <button type="button" class="decBtn px-3 py-2 rounded-md bg-slate-50 text-slate-700">
-              <span class="sym-idle">X</span>
-              <span class="sym-active">−</span>
-            </button>
-
-            <input id="note50" type="number" inputmode="numeric" min="0"
-              class="qtyInput w-20 text-right bg-slate-50 rounded-md p-2 font-semibold" aria-label="Count of 50 rupee notes" placeholder="0" />
-
-            <button type="button" class="incBtn px-3 py-2 rounded-md bg-slate-50 text-slate-700">
-              <span class="sym-idle">=</span>
-              <span class="sym-active">+</span>
-            </button>
-          </div>
-
-          <div class="text-right min-w-[84px]">
+          <div class="flex items-center gap-2 flex-1"> <button type="button"
+              class="decBtn px-3 py-2 rounded-md bg-slate-50 text-slate-700"> <span class="sym-idle">X</span> <span
+                class="sym-active">−</span> </button> <input id="note50" type="number" inputmode="numeric" min="0"
+              class="qtyInput w-20 text-right bg-slate-50 rounded-md p-2 font-semibold"
+              aria-label="Count of 50 rupee notes" placeholder="0" /> <button type="button"
+              class="incBtn px-3 py-2 rounded-md bg-slate-50 text-slate-700"> <span class="sym-idle">=</span> <span
+                class="sym-active">+</span> </button> </div>
+          <div class="text-center min-w-[84px]">
             <div class="text-xs text-slate-400">Subtotal</div>
             <div id="note50Total" class="text-lg font-extrabold text-slate-800">₹0</div>
           </div>
         </div>
-
         <!-- 20 -->
-        <div class="denom-card flex items-center gap-3 bg-white rounded-xl p-3 shadow-sm border border-slate-100"
+        <div class="denom-card flex items-center gap-3 bg-white rounded-xl p-3 shadow-sm border border-slate-300"
           data-denom="20">
-          <div class="min-w-[72px] flex items-center gap-3">
-            <img src="./images/20.png" alt="₹20" class="h-10 w-auto rounded-md object-contain" />
+          <div class="min-w-[72px] flex items-center flex-col gap-1"> <img src="./images/20.png" alt="₹20"
+              class="h-8 w-auto rounded-md object-contain" />
             <div class="text-sm text-slate-800 font-semibold">₹20</div>
           </div>
-
-          <div class="flex items-center gap-2 flex-1">
-            <button type="button" class="decBtn px-3 py-2 rounded-md bg-slate-50 text-slate-700">
-              <span class="sym-idle">X</span>
-              <span class="sym-active">−</span>
-            </button>
-
-            <input id="note20" type="number" inputmode="numeric" min="0"
-              class="qtyInput w-20 text-right bg-slate-50 rounded-md p-2 font-semibold" aria-label="Count of 20 rupee notes" placeholder="0" />
-
-            <button type="button" class="incBtn px-3 py-2 rounded-md bg-slate-50 text-slate-700">
-              <span class="sym-idle">=</span>
-              <span class="sym-active">+</span>
-            </button>
-          </div>
-
-          <div class="text-right min-w-[84px]">
+          <div class="flex items-center gap-2 flex-1"> <button type="button"
+              class="decBtn px-3 py-2 rounded-md bg-slate-50 text-slate-700"> <span class="sym-idle">X</span> <span
+                class="sym-active">−</span> </button> <input id="note20" type="number" inputmode="numeric" min="0"
+              class="qtyInput w-20 text-right bg-slate-50 rounded-md p-2 font-semibold"
+              aria-label="Count of 20 rupee notes" placeholder="0" /> <button type="button"
+              class="incBtn px-3 py-2 rounded-md bg-slate-50 text-slate-700"> <span class="sym-idle">=</span> <span
+                class="sym-active">+</span> </button> </div>
+          <div class="text-center min-w-[84px]">
             <div class="text-xs text-slate-400">Subtotal</div>
             <div id="note20Total" class="text-lg font-extrabold text-slate-800">₹0</div>
           </div>
         </div>
-
         <!-- 10 -->
-        <div class="denom-card flex items-center gap-3 bg-white rounded-xl p-3 shadow-sm border border-slate-100"
+        <div class="denom-card flex items-center gap-3 bg-white rounded-xl p-3 shadow-sm border border-slate-300"
           data-denom="10">
-          <div class="min-w-[72px] flex items-center gap-3">
-            <img src="./images/10.png" alt="₹10" class="h-10 w-auto rounded-md object-contain" />
+          <div class="min-w-[72px] flex items-center flex-col gap-1"> <img src="./images/10.png" alt="₹10"
+              class="h-8 w-auto rounded-md object-contain" />
             <div class="text-sm text-slate-800 font-semibold">₹10</div>
           </div>
-
-          <div class="flex items-center gap-2 flex-1">
-            <button type="button" class="decBtn px-3 py-2 rounded-md bg-slate-50 text-slate-700">
-              <span class="sym-idle">X</span>
-              <span class="sym-active">−</span>
-            </button>
-
-            <input id="note10" type="number" inputmode="numeric" min="0"
-              class="qtyInput w-20 text-right bg-slate-50 rounded-md p-2 font-semibold" aria-label="Count of 10 rupee notes" placeholder="0" />
-
-            <button type="button" class="incBtn px-3 py-2 rounded-md bg-slate-50 text-slate-700">
-              <span class="sym-idle">=</span>
-              <span class="sym-active">+</span>
-            </button>
-          </div>
-
-          <div class="text-right min-w-[84px]">
+          <div class="flex items-center gap-2 flex-1"> <button type="button"
+              class="decBtn px-3 py-2 rounded-md bg-slate-50 text-slate-700"> <span class="sym-idle">X</span> <span
+                class="sym-active">−</span> </button> <input id="note10" type="number" inputmode="numeric" min="0"
+              class="qtyInput w-20 text-right bg-slate-50 rounded-md p-2 font-semibold"
+              aria-label="Count of 10 rupee notes" placeholder="0" /> <button type="button"
+              class="incBtn px-3 py-2 rounded-md bg-slate-50 text-slate-700"> <span class="sym-idle">=</span> <span
+                class="sym-active">+</span> </button> </div>
+          <div class="text-center min-w-[84px]">
             <div class="text-xs text-slate-400">Subtotal</div>
             <div id="note10Total" class="text-lg font-extrabold text-slate-800">₹0</div>
           </div>
         </div>
 
         <!-- coins (1) -->
-        <div class="denom-card flex items-center gap-3 bg-white rounded-xl p-3 shadow-sm border border-slate-100"
+        <div class="denom-card flex items-center gap-3 bg-white rounded-xl p-3 shadow-sm border border-slate-300"
           data-denom="1">
-          <div class="min-w-[72px] flex items-center gap-3">
-            <img src="./images/coins.png" alt="coins" class="h-10 w-auto rounded-md object-contain" />
+          <div class="min-w-[72px] flex items-center flex-col gap-1"> <img src="./images/coins.png" alt="coins"
+              class="h-8 w-auto rounded-md object-contain" />
             <div class="text-sm text-slate-800 font-semibold">Coins</div>
           </div>
-
-          <div class="flex items-center gap-2 flex-1">
-            <button type="button" class="decBtn px-3 py-2 rounded-md bg-slate-50 text-slate-700">
-              <span class="sym-idle">X</span>
-              <span class="sym-active">−</span>
-            </button>
-
-            <input id="note1" type="number" inputmode="numeric" min="0"
-              class="qtyInput w-20 text-right bg-slate-50 rounded-md p-2 font-semibold" aria-label="Count of coins (₹1 each)" placeholder="0" />
-
-            <button type="button" class="incBtn px-3 py-2 rounded-md bg-slate-50 text-slate-700">
-              <span class="sym-idle">=</span>
-              <span class="sym-active">+</span>
-            </button>
-          </div>
-
-          <div class="text-right min-w-[84px]">
+          <div class="flex items-center gap-2 flex-1"> <button type="button"
+              class="decBtn px-3 py-2 rounded-md bg-slate-50 text-slate-700"> <span class="sym-idle">X</span> <span
+                class="sym-active">−</span> </button> <input id="note1" type="number" inputmode="numeric" min="0"
+              class="qtyInput w-20 text-right bg-slate-50 rounded-md p-2 font-semibold"
+              aria-label="Count of coins (₹1 each)" placeholder="0" /> <button type="button"
+              class="incBtn px-3 py-2 rounded-md bg-slate-50 text-slate-700"> <span class="sym-idle">=</span> <span
+                class="sym-active">+</span> </button> </div>
+          <div class="text-center min-w-[84px]">
             <div class="text-xs text-slate-400">Subtotal</div>
             <div id="note1Total" class="text-lg font-extrabold text-slate-800">₹0</div>
           </div>
         </div>
+        <!-- //added space for better view of sticky summary -->
+        <div style="height:35px;" class="min-w-[150px]"></div>
 
-        <div style="height:50px;" class="min-w-[150px]"></div>
       </section>
-    </div>
-  </main>
+    </main>
 
-  <!-- Sticky summary -->
-  <div
-    class="fixed bottom-16 left-1/2 transform -translate-x-1/2 w-[calc(100%-32px)] max-w-sm bg-white rounded-2xl p-3 flex items-center justify-between shadow-lg border border-slate-100">
-    <div>
-      <div class="text-xs text-slate-500">Grand total</div>
-      <div id="grand-total" class="text-lg font-extrabold text-slate-900">₹0</div>
-      <div id="diff" class="text-sm mt-1 text-slate-500">Difference: ₹0</div>
-    </div>
-    <div class="flex flex-col items-end gap-2">
-      <button id="resetBtn" class="px-3 py-2 rounded-lg bg-red-50 text-red-600 text-sm">Reset</button>
+    <!-- STICKY SUMMARY -->
+    <div
+      class="fixed bottom-16 left-1/2 -translate-x-1/2 w-[calc(100%-32px)] max-w-sm bg-white p-3 rounded-2xl shadow-lg border flex justify-between border border-slate-200 items-center gap-4">
+      <div>
+        <div class="text-s">Grand total</div>
+        <div id="grand-total" class="font-extrabold">₹0</div>
+        <div id="diff" class="text-sm text-slate-500">Difference: ₹0</div>
+      </div>
+
+      <div class="flex flex-col gap-2">
+        <button id="saveBtn" class="bg-green-50 text-green-700 px-3 py-2 rounded-lg text-sm">Save</button>
+        <button id="resetBtn" class="bg-red-50 text-red-600 px-3 py-2 rounded-lg text-sm">Reset</button>
+      </div>
     </div>
   </div>
 
-  <!-- Footer (fixed) -->
-  <footer
-    class="fixed bottom-0 left-0 w-full bg-white/90 backdrop-blur-md border-t border-slate-200 text-center text-s text-slate-600 py-3 z-40">
-    <p>
-      Developed by
-      <a href="https://www.instagram.com/nashif.me/" target="_blank"
-        class="font-semibold text-slate-700 hover:text-green-500 transition">
-        Nashif !
-      </a>
-    </p>
+  <!-- FOOTER -->
+  <footer class="fixed bottom-0 w-full text-center py-3 bg-white border-t text-sm">
+    Developed by
+
+
+<a
+  href="https://www.instagram.com/nashif.me/"
+  target="_blank"
+  class="
+    inline-block
+    font-semibold
+    text-slate-800
+    transform
+    hover:text-green-600
+    hover:-translate-y-0.5
+    transition-all duration-200
+    animate-[float_2s_ease-in-out_infinite]
+
+  "
+>
+  Nashif !
+</a>
+
+<!-- <a
+  href="https://www.instagram.com/nashif.me/"
+  target="_blank"
+  class="
+    font-semibold
+    inline-block
+    bg-gradient-to-r from-green-600 to-emerald-600
+    bg-[length:0%_100%]
+    bg-no-repeat
+    hover:bg-[length:100%_100%]
+    text-slate-800
+    hover:text-white
+    transition-all duration-300
+    px-1 rounded-sm
+  "
+>
+  Nashif !
+</a> -->
+
+<!-- <a
+  href="https://www.instagram.com/nashif.me/"
+  target="_blank"
+  class="
+    font-semibold
+    animate-[colorShift_3s_ease-in-out_infinite]
+  "
+>
+  Nashif !
+</a> -->
+
+
+
+
+
+    
   </footer>
 
 </body>
