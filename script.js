@@ -1,6 +1,4 @@
-/* ===============================
-   CONFIGURATION
-================================ */
+//---------CONFIGURATION-------
 const DENOMS = [
   { id: 'note500', value: 500 },
   { id: 'note200', value: 200 },
@@ -11,16 +9,12 @@ const DENOMS = [
   { id: 'note1', value: 1 }
 ];
 
-/* ===============================
-   HELPERS
-================================ */
+// --------₹ is configured------
 function formatINR(n) {
   return '₹' + (Number(n) || 0).toLocaleString('en-IN');
 }
 
-/* ===============================
-   MAIN LOGIC
-================================ */
+//------------ MAIN LOGIC -----------
 document.addEventListener('DOMContentLoaded', () => {
 
   const targetInput = document.getElementById('target');
@@ -49,9 +43,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const target = Number(targetInput.value) || 0;
     const diff = target - grand;
     diffEl.textContent = diff >= 0
-      ? `Difference: ${formatINR(diff)
+      ? `Short: ${formatINR(diff)
   } `
-      : `excess ${formatINR(Math.abs(diff)) } `;
+      : `Excess: ${formatINR(Math.abs(diff)) } `;
   }
 
   // button + input wiring
@@ -76,12 +70,26 @@ document.addEventListener('DOMContentLoaded', () => {
   targetInput.addEventListener('input', updateTotals);
 
   // SAVE AS IMAGE + TIMESTAMP
-  saveBtn.onclick = () => {
-    timestampText.textContent = new Date().toLocaleString('en-IN');
+  saveBtn.onclick = async () => {
+    window.scrollTo({top:250, behavior:'auto'})
+    await new Promise(resolve => setTimeout(resolve, 150));
+    
+    const NowTime = new Date();
+    const showTime = NowTime.toLocaleString('en-IN', {
+    dateStyle: 'medium',
+    timeStyle: 'short'
+  });
+    const stringTime = NowTime.toLocaleString('en-IN', {
+    dateStyle: 'short',
+    timeStyle: 'short'
+  });
+    const downloadTime = stringTime.replace(/[:./ ]/g, '-');
+    timestampText.textContent = showTime;
+
     html2canvas(captureArea, { scale: 2 }).then(canvas => {
       const a = document.createElement('a');
       a.href = canvas.toDataURL();
-      a.download = 'currency-counter.png';
+      a.download = `currency-${downloadTime}.png`;
       a.click();
     });
   };
